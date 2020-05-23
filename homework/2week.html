@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
+
+    <title>쇼핑몰 메인페이지</title>
+    <style>
+        .prd_title {
+            width: 700px;
+            margin: 30px auto;
+        }
+
+        .contents {
+            width: 750px;
+            margin: 30px auto;
+            font-family: 'Nanum Gothic', sans-serif;
+        }
+
+        .button {
+            width: 350px;
+            margin: 50px auto;
+           
+        }
+
+        .order_table {
+            border: 1px solid;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+        .order_table td,
+        .order_table th {
+            padding: 10px;
+            border: 1px solid;
+        }
+        
+    </style>
+     <script>
+        $(document).ready(function(){
+            $.ajax({
+                type: "GET", // GET 방식으로 요청한다.
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {}, // 요청하면서 함께 줄 데이터 (GET 요청시엔 비워두세요)
+                success: function (response) { // 서버에서 준 결과를 response라는 변수에 담음
+                    
+                    for(let i=0; response[i]; i++) {
+                        let exch_name = response[i]['name']
+                        let exch_rate = response[i]['rate']
+
+                        if(exch_name == "USDKRW=X") {
+                            let temp_htm = `<font color="blue"><b>달러 - 원 환율 : ${exch_rate}</b></font>`
+                            $('#exch_rate').append(temp_htm);
+                        }  
+                    }    
+                }
+            })
+         
+        });
+
+        
+        let no_count = 0;
+        function handleClick() {
+
+            let input_name = $('#ord_name').val();
+            let select_count = $('#inputGroupSelect04').val();
+            let input_addr = $('#ord_addr').val();
+            let input_phone = $('#ord_phone').val();
+
+            if (input_name=="") {
+                alert('주문자 성함을 입력해주세요.');
+            } else if (select_count=="Choose...") {
+                alert('주문 옵션정보를 선택해주세요.');
+            } else if (input_addr=="") {
+                alert('주문하실 주소를 입력해주세요.');
+            } else if (input_phone=="") {
+                alert('핸드폰번호를 입력해주세요.');
+            }
+            else {
+                no_count += 1;
+                let temp_htm = ` <tr>
+                            <td scope="col" align="center">${no_count}</td>
+                            <td scope="col" align="center">${input_name}</td>
+                            <td scope="col" align="center">${select_count}</td>
+                            <td scope="col" align="center">${input_addr}</td>
+                            <td scope="col" align="center">${input_phone}</td>
+                            </tr>`
+                $('#order_result').append(temp_htm);
+                alert ('주문이 완료되었습니다.');
+                $('#ord_name').val('');
+                $('#inputGroupSelect04').val('Choose...');
+                $('#ord_addr').val('');
+                $('#ord_phone').val('');
+            } 
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class = "prd_title">
+        <img src="https://wingbling.co.kr/web/product/big/201902/e5443ad07f444878fa008d1cfb71cf55.jpg" width="700px" height="350px">
+    </div>
+    <div class = "contents" >
+        <table>
+            <tr >
+                <td width = "550px">
+                    <h2>[아이유착용]플로스 귀걸이/귀찌♥</h2>
+                </td>
+                <td align="left" valign="middle">
+                    가격  16,500원 / 개
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style = "padding-top: 10px;">
+                   플라워와 물방울 모티브의 청초한 화사함
+                   <P>
+                   아름아름 피어나는 청초한 플라워 모티브 디자인으로 로맨틱, 데이트룩 등의 블라우스 매치 코디에 <br>
+                   부담스럽지 않은 사이즈로 청초한 매력을 더해주는 귀걸이입니다.
+                   고급 스와로브스키 크리스탈이 오밀조밀 <br> 섬세하게 세팅된 귀걸이로 로즈골드 빛감과 함께 어우러져 
+                   웜톤, 쿨톤 등 피부톤에 관계없이 얼굴을 톤업시켜준답니다:)
+                   </P>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div id = "exch_rate" class = "contents">
+        
+    </div>
+
+    <div class = "contents">
+        <table style="width:500px" cellpadding="6px" >
+            <tr>
+                <h2>
+                    주문 하기
+                </h2>
+            </tr>
+            <tr>
+                <td width = "150px">주문자 성함:</td>
+                <td> <input id="ord_name" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"></td>
+            </tr>
+            <tr>
+                <td width = "150px">수량:</td>
+                <td>
+                    <select class="custom-select" id="inputGroupSelect04">
+                        <option selected>Choose...</option>
+                        <option value="귀걸이">귀걸이</option>
+                        <option value="귀찌 (+1,000원)">귀찌 (+1,000원)</option>
+                        <option value="세트(+10,000원)">세트(+10,000원)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td width = "150px">주소:</td>
+                <td> <input id="ord_addr" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"></td>
+            </tr>
+            <tr>
+                <td width = "150px">전화번호:</td>
+                <td><input id="ord_phone" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"></td>
+            </tr>
+        </table>    
+    </div>
+    <div class ="button" align="center">
+        <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="handleClick()">주문 하기</button>
+    </div>
+
+    <div class = "contents">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td scope="col" align="center">NO</td>
+                    <td scope="col" align="center">주문자 성함</td>
+                    <td scope="col" align="center">주문 옵션정보</td>
+                    <td scope="col" align="center">주문 주소</td>
+                    <td scope="col" align="center">주문 전화번호</td>
+                </tr>
+            </thead>
+            <tbody id = "order_result">
+
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
